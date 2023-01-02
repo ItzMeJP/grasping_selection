@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: @GraspingSelection@
+Description: @Grasping selection C++ API@
+Version: @28_12_2022@
+
+Requires:
+Libs: -L${libdir} -lgrasping_selection
+Cflags: -I${includedir}
