@@ -40,7 +40,7 @@ include_directories(
 add_library(${PROJECT_NAME} SHARED
         src/grasping_selection/core.cpp
         src/grasping_selection/grasping_heuristics_base.cpp
-
+        src/grasping_selection/loading_grasping_dataset_from_json.cpp
        )
 
 ## Set dependencies of the library
@@ -56,7 +56,7 @@ target_link_libraries(${PROJECT_NAME}
 # To export the lib and install it
 set_target_properties(${PROJECT_NAME} PROPERTIES
        VERSION ${PROJECT_VERSION}
-       PUBLIC_HEADER "include/grasping_selection/core.h;include/grasping_heuristics_base.h"
+       PUBLIC_HEADER "include/grasping_selection/core.h;include/grasping_heuristics_base.h;include/grasping_heuristics_data;include/loading_grasping_dataset_base"
 
        )
 

@@ -12,9 +12,10 @@ namespace grasping_selection {
     GraspingSelection::GraspingSelection () {    }
     GraspingSelection::~GraspingSelection () {    }
 
-    bool GraspingSelection::setupConfiguration(Configuration _config){
+    bool GraspingSelection::setupConfiguration(LoadingGraspingDatasetBase::Ptr _readDataFunc, Configuration _config){
 
         configuration_ = _config;
+        readDataFunc_ = _readDataFunc;
 
         if(!setupLog(configuration_.log_folder_path) ||
            !checkConfig(configuration_)){
@@ -105,8 +106,8 @@ namespace grasping_selection {
             candidate_chosen_ = "NOT_CONVERGED";
         }
 
-        GraspingHeuristicsParameterBase::Ptr config;
-        config.reset(new EuclideanDistanceParameter());
+         //       GraspingHeuristicsArgumentBase::Ptr config;
+         //       config.reset(new EuclideanDistanceArgument());
 
 
         const clock_t begin_time = clock();
@@ -127,7 +128,8 @@ namespace grasping_selection {
         log_data_arr_.push_back(l);
 */
 
-        return success;
+        //return success;
+        return true;
 
     }
 
@@ -287,6 +289,47 @@ namespace grasping_selection {
 //        std::cout << "Current Date: " << now->tm_mday << '/' << (now->tm_mon + 1) << '/'<< (now->tm_year + 1900) << std::endl;
 //        std::cout << "Current Hour: " << now->tm_hour << ':' << now->tm_min << ':'<< now->tm_sec << std::endl;
 
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    bool GraspingSelection::testing() {
+
+        Configuration c;
+        c.log_folder_path = "/home/joaopedro/";
+
+
+        LoadingGraspingDatasetBase::Ptr loader;
+        loader.reset(new LoadingGraspingDatasetFromJSON());
+
+
+        if( this->setupConfiguration(loader,c) )
+            std::cout << "Success" << std::endl;
+
+
+        RequestInput in;
+
+        in.operation_mode = OPERATION_MODE::STANDALONE_RUN;
+        in.detected_object_name = "object";
+        in.detected_object_tf_name = "object";
+
+        if( this->requestSelection(in) )
+            std::cout <<  "Success" << std::endl;
+
+        this->buildTheLogFile();
+
+
+        return 0;
     }
 
 } //end namespace

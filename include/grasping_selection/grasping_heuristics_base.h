@@ -84,11 +84,11 @@ namespace grasping_selection {
             child_from_cobb_frame_arr;      // candidates from cobb frame. It is needed to be updated only once since its object property.
         } tfs_arr_;
 */
-        virtual void setupMethodConfiguration(GraspingHeuristicsParameterBase _g) = 0;
+        virtual void setupMethodConfiguration(GraspingHeuristicsArgumentBase _g) = 0;
         //void setupBaseConfigurationFromParameterServer(ros::NodeHandlePtr& _node_handle, ros::NodeHandlePtr& _private_node_handle, std::string _configuration_namespace);
         //void setTfBuffer(std::shared_ptr<tf2_ros::Buffer>& _tf_buffer) { tf_buffer_ = _tf_buffer; }
 
-        bool start (std::string _robot_base_frame, std::string _tf_base_reference_name_,
+/*        bool start (std::string _robot_base_frame, std::string _tf_base_reference_name_,
                     std::vector<std::string> _tf_candidates_name_arr_, tfsArr _tfs_arr, grasp_estimation_skill_msgs::GraspCandidateArr &candidates_arr,
                     std::vector<bool>  _previously_extrapolation_arr); //TODO: change all these vector to only candidates_arr
 
@@ -137,7 +137,7 @@ namespace grasping_selection {
         //std::vector<grasp_estimation_skill_msgs::GeometricShape> collision_shapes_each_candidate_arr_;
         //std::vector<pcl::PointCloud<pcl::PointXYZRGBNormal>> collision_clouds_each_candidate_arr_;
         //int number_of_collision_shapes_per_candidate_;
-
+*/
     };
 }
 

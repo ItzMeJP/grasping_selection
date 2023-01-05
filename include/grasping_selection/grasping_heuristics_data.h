@@ -11,30 +11,61 @@
 
 
 namespace grasping_selection {
-    class GraspingHeuristicsParameterBase {
+    class GraspingHeuristicsArgumentBase {
     public:
-        GraspingHeuristicsParameterBase() {};
+        typedef std::shared_ptr<GraspingHeuristicsArgumentBase> Ptr;
 
-        ~GraspingHeuristicsParameterBase() {};
+        GraspingHeuristicsArgumentBase() {};
+        ~GraspingHeuristicsArgumentBase() {};
+
         double weight;
-        typedef std::shared_ptr<GraspingHeuristicsParameterBase> Ptr;
+
     };
 
-
-
-
-    class EuclideanDistanceParameter : public GraspingHeuristicsParameterBase {
+    class EuclideanDistanceArgument : public GraspingHeuristicsArgumentBase {
+    public:
         double distance_threshold;
     };
 
-    class DepthDistanceParameter : public GraspingHeuristicsParameterBase {
+    class DepthDistanceArgument : public GraspingHeuristicsArgumentBase {
+    public:
         double distance_threshold;
     };
 
-    class JointGraspingParameter : public GraspingHeuristicsParameterBase {
+    class JointGraspingArgument : public GraspingHeuristicsArgumentBase {
+    public:
         std::string chain_start, chain_end, urdf_param;
         double timeout;
         int insist;
+    };
+    /// ########################################################################
+
+    class GraspingHeuristicsDataBase {
+    public:
+
+        GraspingHeuristicsDataBase() {};
+        ~GraspingHeuristicsDataBase() {};
+
+    };
+
+    class CandidateCollisionData : public GraspingHeuristicsDataBase {
+    public:
+
+    };
+
+    class GeneralCollisionData : public GraspingHeuristicsDataBase {
+    public:
+
+    };
+
+    class JointData : public GraspingHeuristicsDataBase {
+    public:
+
+    };
+
+    class WorkspaceData : public GraspingHeuristicsDataBase {
+    public:
+
     };
 }
 

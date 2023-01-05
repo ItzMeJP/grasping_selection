@@ -10,76 +10,44 @@
 
 #pragma once
 
-#include <string>
-#include <iostream>
+
 #include <ctime> // to get date info
-#include <string.h>
 #include <sstream> //to manip strings
 #include <fstream> // to generate files
 #include <sys/stat.h> // to check the path existence
 
+#include "core_data.h" //also includes the std_vector_complement and the transform_manipulation libs
 #include "grasping_heuristics_data.h"
+#include "grasping_heuristics_base.h"
+#include "loading_grasping_dataset_base.h"
+#include "loading_grasping_dataset_from_json.h"
 
-#define MSG_PREFIX "<GraspingSelection::core> "
+#define MSG_GRASPING_SELECTION_PREFIX "<GraspingSelection::core> "
 
 #ifndef NDEBUG
-#define DEBUG_GRASPING_SELECTION_CORE_MSG(str) do { std::cout << "\033[;33m" << MSG_PREFIX << str << "\033[0m"<< std::endl; } while( false )
+#define DEBUG_GRASPING_SELECTION_CORE_MSG(str) do { std::cout << "\033[;33m" << MSG_GRASPING_SELECTION_PREFIX << str << "\033[0m"<< std::endl; } while( false )
 #else
 #define DEBUG_GRASPING_SELECTION_CORE_MSG(str) do { } while ( false )
 #endif
 
-#define ERROR_GRASPING_SELECTION_CORE_MSG(str) do { std::cout << "\033[;31m" << MSG_PREFIX << str << "\033[0m"<< std::endl; } while( false )
+#define ERROR_GRASPING_SELECTION_CORE_MSG(str) do { std::cout << "\033[;31m" << MSG_GRASPING_SELECTION_PREFIX << str << "\033[0m"<< std::endl; } while( false )
 
 
 namespace grasping_selection {
-
-    struct RequestInput {
-
-        std::string detected_object_name,
-                    detected_object_tf_name;
-                int operation_mode;
-
-    };
-
-    struct Configuration{
-        std::string
-                log_folder_path = "",
-                grasp_candidates_namespace = "candidate",
-                cog_namespace_ = "center_of_gravity",
-                cog_namespace_tf_header_frame_id_override_ = "gripper",
-                cobb_namespace_ = "center_of_bounding_box",
-                cobb_namespace_tf_header_frame_id_override_ = "gripper",
-                approach_origin_namespace_ = "approach",
-                robot_base_frame_ = "base_link",
-                reference_frame_ = "gripper",
-                selected_candidate_tf_frame = "grasp";
-    };
 
     class GraspingSelection{
     public:
         GraspingSelection ();
         ~GraspingSelection (void);
 
-        enum OPERATION_MODE {
-            DIRECT,
-            PRE_LOAD,
-            STANDALONE_RUN
-        };
-
-        enum CORE_FEEDBACK_CODE {
-            LOG_PATH_ERROR = 101,
-            LOG_FOLDER_CREATION_ERROR,
-            SETUP_CONFIGURATION_ERROR,
-            REQUEST_INPUT_ERROR,
-            PRELOAD_STANDALONE_INCONSISTENCY
-        };
-
-        bool setupConfiguration(Configuration _config);
+        bool setupConfiguration(LoadingGraspingDatasetBase::Ptr _readDataFunc,Configuration _config);
         bool requestSelection(RequestInput _in);
 
         void buildTheLogFile(); //TODO:  put this method as private
 
         int getErrorCode();
+
+        bool testing();
 
     protected:
         std::string log_folder_name_,
@@ -91,12 +59,19 @@ namespace grasping_selection {
         int request_counter_ = 0,
             error_code_;
         Configuration configuration_;
+        LoadingGraspingDatasetBase::Ptr readDataFunc_;
         bool checkConfig(Configuration _in);
         bool checkInputRequest(RequestInput _in);
         bool setupLog(std::string _path_log_folder);
         void updateOutputMsg(std::string _msg, bool _error_msg);
 
-        GraspEstimationBase::ArrPtr                    estimationPipelineArrPtr_ = std::make_shared<GraspEstimationBase::Arr>();
+        GraspingHeuristicsBase::ArrPtr estimationPipelineArrPtr_ = std::make_shared<GraspingHeuristicsBase::Arr>();
+        CandidateArr grasp_candidates_arr_;
+        std::vector<double> pipeline_scores_arr_;
+        std::vector<bool> pipeline_extrapolation_arr_;
+        std::vector<std::pair<double, int>> pipeline_scores_pair_arr_; //used for sorts scores_arr
+        std::vector<std::string> candidates_tf_names_arr_;
+        MarkerArr collisions_marker_arr_;
 
         bool
                 preload_ok_             = false,
