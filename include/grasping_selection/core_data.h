@@ -21,24 +21,10 @@ namespace grasping_selection {
 
     };
 
-    struct Configuration {
-        std::string
-                log_folder_path = "",
-                grasp_candidates_namespace = "candidate",
-                cog_namespace_ = "center_of_gravity",
-                cog_namespace_tf_header_frame_id_override_ = "gripper",
-                cobb_namespace_ = "center_of_bounding_box",
-                cobb_namespace_tf_header_frame_id_override_ = "gripper",
-                approach_origin_namespace_ = "approach",
-                robot_base_frame_ = "base_link",
-                reference_frame_ = "gripper",
-                selected_candidate_tf_frame = "grasp";
-    };
-
     enum OPERATION_MODE {
-        DIRECT,
-        PRE_LOAD,
-        STANDALONE_RUN
+        DIRECT, // load and standalone run together
+        PRE_LOAD, // just load the dataset
+        STANDALONE_RUN // just run the pipeline
     };
 
     enum CORE_FEEDBACK_CODE {

@@ -9,10 +9,22 @@ namespace grasping_selection {
     LoadingGraspingDatasetFromJSON::LoadingGraspingDatasetFromJSON () {   };
     LoadingGraspingDatasetFromJSON::~LoadingGraspingDatasetFromJSON () {   };
 
-    void LoadingGraspingDatasetFromJSON::loadCandidatesDataset()  {
+    bool LoadingGraspingDatasetFromJSON::loadObjectCandidatesDataset()  {
 
-        std::cout << "Testando o JSON" << std::endl;
+        std::cout << "Testando o JSON para dataset" << std::endl;
+        return true;
+    }
 
-    };
+    bool LoadingGraspingDatasetFromJSON::loadObjectCenterOfBoundingBox() {
+
+        std::cout << "Testando o JSON para COBB dataset " << std::endl;
+        return true;
+    }
+
+    bool LoadingGraspingDatasetFromJSON::loadObjectCenterOfGravity() {
+
+        std::cout << "Testando o JSON para COBB dataset " << std::endl;
+        return true;
+    }
 
 }

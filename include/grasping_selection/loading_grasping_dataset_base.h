@@ -16,7 +16,9 @@ namespace grasping_selection {
 
         typedef std::shared_ptr<LoadingGraspingDatasetBase> Ptr;
 
-        virtual void loadCandidatesDataset() = 0;
+        virtual bool loadObjectCandidatesDataset() = 0;
+        virtual bool loadObjectCenterOfGravity() = 0;
+        virtual bool loadObjectCenterOfBoundingBox() = 0;
 
     };
 }

@@ -17,8 +17,10 @@
 #include <sys/stat.h> // to check the path existence
 
 #include "core_data.h" //also includes the std_vector_complement and the transform_manipulation libs
-#include "grasping_heuristics_data.h"
-#include "grasping_heuristics_base.h"
+#include "core_setup_base.h"
+#include "core_setup_from_json.h"
+#include "heuristics/grasping_heuristics_data.h"
+#include "heuristics/grasping_heuristics_base.h"
 #include "loading_grasping_dataset_base.h"
 #include "loading_grasping_dataset_from_json.h"
 
@@ -40,7 +42,7 @@ namespace grasping_selection {
         GraspingSelection ();
         ~GraspingSelection (void);
 
-        bool setupConfiguration(LoadingGraspingDatasetBase::Ptr _readDataFunc,Configuration _config);
+        bool setupConfiguration(CoreSetupBase::Ptr _readCoreSetupFunc, LoadingGraspingDatasetBase::Ptr _readDatasetFunc);
         bool requestSelection(RequestInput _in);
 
         void buildTheLogFile(); //TODO:  put this method as private
@@ -58,12 +60,21 @@ namespace grasping_selection {
 
         int request_counter_ = 0,
             error_code_;
-        Configuration configuration_;
-        LoadingGraspingDatasetBase::Ptr readDataFunc_;
-        bool checkConfig(Configuration _in);
+        //Configuration configuration_;
+
+        LoadingGraspingDatasetBase::Ptr readDatasetFunc_;
+        CoreSetupBase::Ptr readCoreSetupFunc_;
+
+        //bool checkConfig(Configuration _in);
         bool checkInputRequest(RequestInput _in);
         bool setupLog(std::string _path_log_folder);
         void updateOutputMsg(std::string _msg, bool _error_msg);
+        bool executeProcess (int _operation_mode);
+        bool executeDirectProcess ();
+        //bool executePreLoad ();
+        //bool executeStandaloneProcess ();
+        bool loadEstimationPipeline();
+
 
         GraspingHeuristicsBase::ArrPtr estimationPipelineArrPtr_ = std::make_shared<GraspingHeuristicsBase::Arr>();
         CandidateArr grasp_candidates_arr_;

@@ -13,7 +13,10 @@ namespace grasping_selection {
     public:
         LoadingGraspingDatasetFromJSON();
         ~LoadingGraspingDatasetFromJSON();
-        void loadCandidatesDataset();
+
+        bool loadObjectCandidatesDataset();
+        bool loadObjectCenterOfGravity();
+        bool loadObjectCenterOfBoundingBox();
 
     };
 }
